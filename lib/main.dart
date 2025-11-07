@@ -30,10 +30,10 @@ class MyApp extends StatelessWidget {
       title: Env.appName,
       initialRoute: AppRoutes.splash,
       onGenerateRoute: RouteGenerator.generate,
-
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.background,
         brightness: Brightness.dark,
+        appBarTheme: const AppBarTheme(surfaceTintColor: Colors.transparent),
       ),
       home: const SplashScreen(),
     );
