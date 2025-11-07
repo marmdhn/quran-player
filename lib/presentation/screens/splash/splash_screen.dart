@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(seconds: AppConstants.kSplashDelay), () {
       if (!mounted) return null;
+      Navigator.pushReplacementNamed(context, '/reciterList');
     });
   }
 
@@ -64,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen>
           LoadingIndicator(),
           const SizedBox(height: 24),
           const Text(
-            "Powered by Flutter",
+            "Powered by MARMDHN_",
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey,
