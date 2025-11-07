@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/config/colors.dart';
-
 class LoadingIndicator extends StatefulWidget {
   const LoadingIndicator({
     super.key,
-    this.color = AppColors.primary,
+    this.color = Colors.white,
     this.total = 5,
   });
 
