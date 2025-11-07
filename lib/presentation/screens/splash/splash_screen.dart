@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:quran_player/core/config/colors.dart';
 
-import '../../../core/config/colors.dart';
 import '../../../core/config/constant.dart';
 import '../../../core/utils/size_config.dart';
 import '../../shared/widgets/loading_indicator.dart';
@@ -28,7 +28,6 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -47,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  color: AppColors.white,
                   letterSpacing: 0.5,
                 ),
               ),
@@ -55,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
                 "Empowering Praying with Technology",
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.lightDark,
+                  color: AppColors.white,
                   letterSpacing: 0.3,
                 ),
               ),
