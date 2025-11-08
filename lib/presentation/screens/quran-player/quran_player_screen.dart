@@ -66,6 +66,12 @@ class _QuranPlayerScreenState extends State<QuranPlayerScreen> {
   }
 
   @override
+  void dispose() {
+    _processingStateSub?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final reciterVM = context.watch<ReciterViewModel>();
     final playerVM = context.watch<AudioPlayerViewModel>();
