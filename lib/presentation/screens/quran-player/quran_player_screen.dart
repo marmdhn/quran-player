@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:quran_player/core/utils/size_config.dart';
 
 import '../../../core/config/colors.dart';
 import '../../../data/static/reciter_images.dart';
+import '../../shared/widgets/reciter_avatar.dart';
 import '../../view-models/audio_player_view_model.dart';
 import '../../view-models/reciter_view_model.dart';
 import '../../view-models/surah_view_model.dart';
@@ -16,6 +20,9 @@ class QuranPlayerScreen extends StatefulWidget {
 }
 
 class _QuranPlayerScreenState extends State<QuranPlayerScreen> {
+  StreamSubscription<ProcessingState>? _processingStateSub;
+  bool _isHandlingNextSurah = false;
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +40,28 @@ class _QuranPlayerScreenState extends State<QuranPlayerScreen> {
       } else {
         debugPrint('Reciter belum dipilih');
       }
+
+      _processingStateSub = playerVM.audioPlayer.processingStateStream.listen((
+        state,
+      ) async {
+        if (state == ProcessingState.completed && !_isHandlingNextSurah) {
+          _isHandlingNextSurah = true;
+
+          final nextSurah = surahVM.getNextSurah(surahVM.selectedSurah!);
+          if (nextSurah != null) {
+            debugPrint('Lanjut ke surah berikutnya: ${nextSurah.englishName}');
+            await playerVM.fetchSurahAudioList(
+              reciterVM.selectedReciterIdentifier!,
+              nextSurah.number,
+            );
+            surahVM.setSelectedSurah(nextSurah.number);
+          } else {
+            debugPrint('Sudah surah terakhir.');
+          }
+
+          _isHandlingNextSurah = false;
+        }
+      });
     });
   }
 
@@ -46,15 +75,19 @@ class _QuranPlayerScreenState extends State<QuranPlayerScreen> {
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.transparent),
       body: Stack(
+        clipBehavior: Clip.none,
         children: [
           Positioned(
-            bottom: 0,
+            bottom: -SizeConfig.height(0.4),
             left: 0,
-            child: Image.asset(
-              'assets/images/ornaments/img-gradient-bg.png',
-              width: SizeConfig.screenWidth,
-              height: SizeConfig.height(0.8),
-              fit: BoxFit.cover,
+            right: 0,
+            child: IgnorePointer(
+              child: Image.asset(
+                'assets/images/ornaments/img-gradient-bg.png',
+                width: SizeConfig.screenWidth,
+                height: SizeConfig.height(1.2),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
 
@@ -64,24 +97,10 @@ class _QuranPlayerScreenState extends State<QuranPlayerScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Gambar reciter
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: imagePath != null
-                        ? Image.asset(
-                            imagePath,
-                            width: SizeConfig.screenWidth,
-                            fit: BoxFit.cover,
-                          )
-                        : Container(
-                            width: SizeConfig.screenWidth,
-                            height: SizeConfig.height(0.4),
-                            color: Colors.grey.shade800,
-                            child: const Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                          ),
+                  ReciterAvatar(
+                    imagePath: imagePath,
+                    size: SizeConfig.height(0.4),
+                    borderRadius: 20,
                   ),
                   const SizedBox(height: 24),
 
@@ -210,7 +229,17 @@ class _QuranPlayerScreenState extends State<QuranPlayerScreen> {
                         iconSize: 36,
                         color: AppColors.white,
                         icon: const Icon(Icons.skip_previous_rounded),
-                        onPressed: () => playerVM.previous(),
+                        onPressed: () {
+                          final reciterVM = context.read<ReciterViewModel>();
+                          final playerVM = context.read<AudioPlayerViewModel>();
+                          final surahVM = context.read<SurahViewModel>();
+
+                          playerVM.previousSurah(
+                            reciterVM.selectedReciterIdentifier!,
+                            surahVM.selectedSurah!,
+                            surahVM,
+                          );
+                        },
                       ),
                       const Spacer(),
                       Container(
@@ -243,7 +272,17 @@ class _QuranPlayerScreenState extends State<QuranPlayerScreen> {
                         iconSize: 36,
                         color: AppColors.white,
                         icon: const Icon(Icons.skip_next_rounded),
-                        onPressed: () => playerVM.next(),
+                        onPressed: () {
+                          final reciterVM = context.read<ReciterViewModel>();
+                          final playerVM = context.read<AudioPlayerViewModel>();
+                          final surahVM = context.read<SurahViewModel>();
+
+                          playerVM.nextSurah(
+                            reciterVM.selectedReciterIdentifier!,
+                            surahVM.selectedSurah!,
+                            surahVM,
+                          );
+                        },
                       ),
                     ],
                   ),
