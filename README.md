@@ -1,4 +1,4 @@
-# 📖 Qur’an Player App
+# Qur’an Player App
 
 Aplikasi **Qur’an Player** berbasis Flutter yang memungkinkan pengguna mendengarkan lantunan **murattal Al-Qur’an** dari
 berbagai **reciter (qari)** dengan navigasi yang sederhana dan pemutar audio yang interaktif.
@@ -6,20 +6,20 @@ Dibangun menggunakan **Flutter stable**, dengan arsitektur modular berbasis **Pr
 
 ---
 
-## 🚀 Fitur Utama
+## Fitur Utama
 
-* 🎧 **Audio Player Real-time** menggunakan [`just_audio`](https://pub.dev/packages/just_audio)
-* ⏯ **Kontrol Play / Pause / Seek**
-* 🔁 **Auto-next Surah** setelah audio selesai
-* 👤 **Daftar Reciter (Qari)** dengan gambar dan nama
-* 📜 **Daftar Surah per Reciter**
-* 🧩 **State Management:** Provider
-* ⚙️ **Dependency Injection:** GetIt
-* 🛠 **Routing Terpusat:** `AppRoutes`
+*  **Audio Player Real-time** menggunakan [`just_audio`](https://pub.dev/packages/just_audio)
+*  **Kontrol Play / Pause / Seek**
+*  **Auto-next Surah** setelah audio selesai
+*  **Daftar Reciter (Qari)** dengan gambar dan nama
+*  **Daftar Surah per Reciter**
+*  **State Management:** Provider
+*  **Dependency Injection:** GetIt
+*  **Routing Terpusat:** `AppRoutes`
 
 ---
 
-## 📁 Struktur Proyek
+##  Struktur Proyek
 
 ```
 lib/
@@ -75,7 +75,7 @@ assets/
 
 ---
 
-## 🧭 Alur Navigasi Aplikasi
+##  Alur Navigasi Aplikasi
 
 ```text
 Splash Screen
@@ -91,7 +91,7 @@ Setiap tahap dikelola dengan `AppRoutes` agar navigasi tetap konsisten dan mudah
 
 ---
 
-## ⚙️ Implementasi Teknis
+##  Implementasi Teknis
 
 ### 1. **State Management – Provider**
 
@@ -173,7 +173,7 @@ class AppRoutes {
 
 ---
 
-## ▶️ Cara Menjalankan
+##  Cara Menjalankan
 
 1. Clone repo:
 
@@ -196,7 +196,7 @@ class AppRoutes {
 
 ---
 
-## 🎨 Preview (UI Overview)
+##  Preview (UI Overview)
 
 | Tampilan          | Deskripsi                                        |
 |-------------------|--------------------------------------------------|
@@ -208,7 +208,7 @@ class AppRoutes {
 
 ---
 
-## 💡 Catatan Profesional
+##  Catatan Profesional
 
 * Kode ditulis dengan prinsip **clean architecture** dan **separation of concerns**.
 * Menggunakan kombinasi **Provider + GetIt** untuk efisiensi dan maintainability.
@@ -217,7 +217,7 @@ class AppRoutes {
 
 ---
 
-## 🧾 Lisensi
+##  Lisensi
 
 Proyek ini bersifat open-source dan digunakan untuk keperluan demonstrasi teknikal.
 
