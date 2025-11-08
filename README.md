@@ -164,6 +164,7 @@ Navigasi antar halaman terpusat agar lebih maintainable:
 
 ```dart
 class AppRoutes {
+  static const splash = '/';
   static const reciterList = '/reciterList';
   static const surahList = '/surahList';
   static const quranPlayer = '/quranPlayer';
@@ -203,7 +204,7 @@ class AppRoutes {
 | **Surah List**    | Menampilkan daftar surah sesuai reciter          |
 | **Qur’an Player** | Kontrol audio, progress bar, dan auto-next surah |
 
-> Simpan screenshot di `/screenshots/` untuk dokumentasi visual.
+> Preview dapat dilihat di folder `/preview/` untuk dokumentasi visual dan file .apk yang dapat diinstall di android.
 
 ---
 
