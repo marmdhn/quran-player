@@ -29,4 +29,20 @@ class SurahViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  SurahModel? getNextSurah(int currentSurahNumber) {
+    final index = surahList.indexWhere((s) => s.number == currentSurahNumber);
+    if (index != -1 && index < surahList.length - 1) {
+      return surahList[index + 1];
+    }
+    return null;
+  }
+
+  SurahModel? getPreviousSurah(int currentSurahNumber) {
+    final index = surahList.indexWhere((s) => s.number == currentSurahNumber);
+    if (index > 0) {
+      return surahList[index - 1];
+    }
+    return null;
+  }
 }
