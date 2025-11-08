@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quran_player/core/config/constant.dart';
+import 'package:quran_player/presentation/screens/reciter/widget/playing_now.dart';
 import 'package:quran_player/presentation/shared/widgets/loading_indicator.dart';
 
 import '../../../core/config/colors.dart';
 import '../../../data/static/reciter_images.dart';
+import '../../shared/widgets/reciter_avatar.dart';
 import '../../view-models/audio_player_view_model.dart';
 import '../../view-models/reciter_view_model.dart';
 
@@ -65,7 +66,7 @@ class _ReciterScreenState extends State<ReciterScreen> {
                 if (playerVM.ayahList != null &&
                     reciterVM.selectedReciter != null &&
                     !playerVM.isSurahFinished)
-                  PlayingNowWidget(),
+                  PlayingNow(),
 
                 Expanded(
                   child: ListView.separated(
@@ -82,25 +83,7 @@ class _ReciterScreenState extends State<ReciterScreen> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         child: ListTile(
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: imagePath != null
-                                ? Image.asset(
-                                    imagePath,
-                                    width: 56,
-                                    height: 56,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Container(
-                                    width: 56,
-                                    height: 56,
-                                    color: Colors.grey.shade800,
-                                    child: const Icon(
-                                      Icons.person,
-                                      color: AppColors.white,
-                                    ),
-                                  ),
-                          ),
+                          leading: ReciterAvatar(imagePath: imagePath),
                           title: Text(
                             reciter.englishName,
                             style: const TextStyle(
@@ -125,105 +108,6 @@ class _ReciterScreenState extends State<ReciterScreen> {
           },
         ),
       ),
-    );
-  }
-}
-
-class PlayingNowWidget extends StatelessWidget {
-  const PlayingNowWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final playerVM = context.watch<AudioPlayerViewModel>();
-    final reciterVM = context.watch<ReciterViewModel>();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          "Sedang diputar",
-          style: TextStyle(
-            color: AppColors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: AppConstants.kFontSize,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 24),
-          decoration: BoxDecoration(
-            color: AppColors.dark,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child:
-                    reciterImages[reciterVM.selectedReciterIdentifier] != null
-                    ? Image.asset(
-                        reciterImages[reciterVM.selectedReciterIdentifier]!,
-                        width: 48,
-                        height: 48,
-                        fit: BoxFit.cover,
-                      )
-                    : Container(
-                        width: 48,
-                        height: 48,
-                        color: Colors.grey.shade700,
-                        child: const Icon(Icons.person, color: Colors.white),
-                      ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      playerVM.ayahList!.englishName,
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: AppConstants.kFontSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${reciterVM.selectedReciter}',
-                      style: const TextStyle(
-                        color: AppColors.secondary,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              StreamBuilder<bool>(
-                stream: playerVM.audioPlayer.playingStream,
-                builder: (context, snapshot) {
-                  final isPlaying = snapshot.data ?? false;
-                  return IconButton(
-                    icon: Icon(
-                      isPlaying ? Icons.pause : Icons.play_arrow,
-                      color: AppColors.white,
-                      size: 30,
-                    ),
-                    onPressed: () {
-                      if (isPlaying) {
-                        playerVM.pause();
-                      } else {
-                        playerVM.play();
-                      }
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
     );
   }
 }
