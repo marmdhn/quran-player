@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:quran_player/presentation/view-models/surah_view_model.dart';
 
 import '../../core/di/locator.dart';
 import '../../data/models/ayah_model.dart';
@@ -54,6 +55,34 @@ class AudioPlayerViewModel extends ChangeNotifier {
       playlist,
       initialIndex: _currentAyahIndex,
     );
+  }
+
+  Future<void> nextSurah(
+    String reciterId,
+    int currentSurah,
+    SurahViewModel surahVM,
+  ) async {
+    final next = surahVM.getNextSurah(currentSurah);
+    if (next != null) {
+      await fetchSurahAudioList(reciterId, next.number);
+      surahVM.setSelectedSurah(next.number);
+    } else {
+      debugPrint('Sudah surah terakhir');
+    }
+  }
+
+  Future<void> previousSurah(
+    String reciterId,
+    int currentSurah,
+    SurahViewModel surahVM,
+  ) async {
+    final prev = surahVM.getPreviousSurah(currentSurah);
+    if (prev != null) {
+      await fetchSurahAudioList(reciterId, prev.number);
+      surahVM.setSelectedSurah(prev.number);
+    } else {
+      debugPrint('Sudah surah pertama');
+    }
   }
 
   void play() => audioPlayer.play();
